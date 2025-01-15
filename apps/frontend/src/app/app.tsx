@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-router';
 import Layout from './layout';
 import Home from './home';
+import NewSurvey from './new-survey';
 
 const pageTransitionVariants = {
   initial: { opacity: 0, y: 20 },
@@ -43,7 +44,17 @@ const homeRoute = createRoute({
   ),
 });
 
-const routeTree = rootRoute.addChildren([homeRoute]);
+const newSurveyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/new-survey',
+  component: () => (
+    <AnimateChildren>
+      <NewSurvey />
+    </AnimateChildren>
+  ),
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, newSurveyRoute]);
 
 export const router = createRouter({ routeTree });
 

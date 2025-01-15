@@ -64,7 +64,12 @@ export default function HomeLecturer() {
         {isDesktop ? (
           <>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-              <Button variant="contained">Novo</Button>
+              <Button
+                variant="contained"
+                onClick={() => router.navigate({ to: '/new-survey' })}
+              >
+                Novo
+              </Button>
             </Box>
             <TableContainer component={Paper} sx={{ mt: 2 }}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -158,7 +163,12 @@ export default function HomeLecturer() {
               justifyContent="center"
               padding={2}
             >
-              <Button variant="contained">Novo</Button>
+              <Button
+                variant="contained"
+                onClick={() => router.navigate({ to: '/new-survey' })}
+              >
+                Novo
+              </Button>
             </Box>
           </>
         )}
