@@ -8,4 +8,18 @@ export const themeOptions = {
       main: '#f50057',
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: 'white',
+        },
+        contained: {
+          '&:hover': {
+            backgroundColor: '#f50057',
+          },
+        },
+      },
+    },
+  },
 };

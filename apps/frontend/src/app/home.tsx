@@ -1,14 +1,5 @@
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import HomeLecturer from './home-lecturer';
 
 export default function Home() {
-  return (
-    <Typography
-      variant="h2"
-      component="div"
-      sx={{ color: 'black', mr: 2, mt: 10, textAlign: 'center' }}
-    >
-      Home
-    </Typography>
-  );
+  return <HomeLecturer />;
 }
