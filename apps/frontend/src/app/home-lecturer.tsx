@@ -19,7 +19,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { router } from './app';
 import CenterLoad from './center-load';
-import { SurveyState } from '@pwa-projeto-final/model';
 
 export default function HomeLecturer() {
   const theme = useTheme();
@@ -88,12 +87,10 @@ export default function HomeLecturer() {
                         {survey.title}
                       </TableCell>
                       <TableCell key={'row_' + survey._id + '_state'}>
-                        {survey.state === SurveyState.ACTIVE
-                          ? 'Ativo'
-                          : 'Expirado'}
+                        {survey.state === 'active' ? 'Ativo' : 'Expirado'}
                       </TableCell>
                       <TableCell key={'row_' + survey._id + '_answers'}>
-                        {survey.answers}
+                        {survey.results.length}
                       </TableCell>
                       <TableCell>
                         <Button
@@ -149,7 +146,7 @@ export default function HomeLecturer() {
                     component="h1"
                     sx={{ textAlign: 'right' }}
                   >
-                    Respostas: {survey.answers}
+                    Respostas: {survey.results.length}
                   </Typography>
                 </Box>
               ))}

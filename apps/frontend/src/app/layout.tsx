@@ -1,16 +1,27 @@
 import {
   Alert,
+  Button,
   Container,
   CssBaseline,
   Snackbar,
   ThemeProvider,
+  Typography,
 } from '@mui/material';
 import Navbar from './navbar';
 import { Outlet } from '@tanstack/react-router';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  startTransition,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { themeOptions } from '../theme';
 import { motion } from 'framer-motion';
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { ErrorBoundary } from 'react-error-boundary';
 
 interface ErrorProps {
   showError: (message: string) => void;
@@ -87,7 +98,37 @@ export default function Layout() {
             <Navbar toggleTheme={toggleTheme} />
           </nav>
           <main>
-            <Outlet />
+            <QueryErrorResetBoundary>
+              {({ reset }) => (
+                <ErrorBoundary
+                  onReset={reset}
+                  fallbackRender={({ resetErrorBoundary, error }) => {
+                    return (
+                      <Typography
+                        variant="h5"
+                        component="div"
+                        sx={{ mt: 10, textAlign: 'center' }}
+                      >
+                        {error.message.toString()}
+                        <br />
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() =>
+                            startTransition(() => resetErrorBoundary())
+                          }
+                          sx={{ mt: 2 }}
+                        >
+                          Retry
+                        </Button>
+                      </Typography>
+                    );
+                  }}
+                >
+                  <Outlet />
+                </ErrorBoundary>
+              )}
+            </QueryErrorResetBoundary>
             <Snackbar
               open={error.open}
               autoHideDuration={6000}

@@ -28,7 +28,7 @@ export default function NewSurvey() {
   const [title, setTitle] = useState('');
   const [validity, setValidity] = useState('');
   const [questions, setQuestions] = useState<NewQuestion[]>([
-    { question: '', answers: ['', '', '', ''], correctAnswer: undefined },
+    { question: '', answers: ['', '', '', ''], correctAnswer: -1 },
   ]);
   const [errors, setErrors] = useState('');
   const { showError } = useError();
@@ -37,7 +37,11 @@ export default function NewSurvey() {
 
   const addSurvey = useMutation({
     mutationFn: async () => {
-      const newSurvey = { title, validity: new Date(validity), questions };
+      const newSurvey = {
+        title,
+        validity: new Date(validity),
+        newQuestions: questions,
+      };
       return surveyService.create(newSurvey);
     },
     onSuccess: () => {
@@ -50,7 +54,7 @@ export default function NewSurvey() {
             {
               question: '',
               answers: ['', '', '', ''],
-              correctAnswer: undefined,
+              correctAnswer: -1,
             },
           ])
         );
@@ -76,10 +80,7 @@ export default function NewSurvey() {
     setQuestions(updatedQuestions);
   };
 
-  const handleCorrectAnswerChange = (
-    qIndex: number,
-    aIndex: number | undefined
-  ) => {
+  const handleCorrectAnswerChange = (qIndex: number, aIndex: number) => {
     const updatedQuestions = [...questions];
     updatedQuestions[qIndex].correctAnswer = aIndex;
     setQuestions(updatedQuestions);
@@ -88,7 +89,7 @@ export default function NewSurvey() {
   const addQuestion = () => {
     setQuestions([
       ...questions,
-      { question: '', answers: ['', '', '', ''], correctAnswer: undefined },
+      { question: '', answers: ['', '', '', ''], correctAnswer: -1 },
     ]);
   };
 
@@ -116,7 +117,7 @@ export default function NewSurvey() {
         }
       });
 
-      if (!question.correctAnswer) {
+      if (!question.correctAnswer || question.correctAnswer === -1) {
         validationErrors += `Deverá ser selecionada uma resposta correta para a Pergunta ${
           index + 1
         }.\n`;

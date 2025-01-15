@@ -1,21 +1,41 @@
-import { NewQuestion } from './question';
+export interface Question {
+  id: number;
+  question: string;
+  answers: string[];
+  correctAnswer: number;
+}
 
-export enum SurveyState {
-  ACTIVE = 'active',
-  EXPIRED = 'expired',
+export interface Answer {
+  questionId: number;
+  answerId: number;
+}
+
+export interface SurveyResult {
+  id: number;
+  userId: string;
+  username: string;
+  correct: number;
+  wrong: number;
+  answers: Answer[];
 }
 
 export interface Survey {
   _id: string;
   title: string;
   validity: Date;
-  answers: number;
-  state: SurveyState;
-  questionIds: string[];
+  state: 'active' | 'expired';
+  questions: Question[];
+  results: SurveyResult[];
+}
+
+export interface NewQuestion extends Partial<Question> {
+  question: string;
+  answers: string[];
+  correctAnswer: number;
 }
 
 export interface NewSurvey extends Partial<Survey> {
   title: string;
   validity: Date;
-  questions: NewQuestion[];
+  newQuestions: NewQuestion[];
 }

@@ -9,6 +9,7 @@ import {
 import Layout from './layout';
 import Home from './home';
 import NewSurvey from './new-survey';
+import Survey from './survey';
 
 const pageTransitionVariants = {
   initial: { opacity: 0, y: 20 },
@@ -54,7 +55,21 @@ const newSurveyRoute = createRoute({
   ),
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, newSurveyRoute]);
+const surveyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/survey',
+  component: () => (
+    <AnimateChildren>
+      <Survey />
+    </AnimateChildren>
+  ),
+});
+
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  newSurveyRoute,
+  surveyRoute,
+]);
 
 export const router = createRouter({ routeTree });
 
