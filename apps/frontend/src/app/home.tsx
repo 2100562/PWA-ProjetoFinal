@@ -1,5 +1,5 @@
-import HomeLecturer from './home-lecturer';
+import HomeStudent from './home-student';
 
 export default function Home() {
-  return <HomeLecturer />;
+  return <HomeStudent />;
 }

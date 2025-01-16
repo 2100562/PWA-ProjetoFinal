@@ -93,6 +93,12 @@ export class SurveyService {
     return Promise.resolve(surveys);
   }
 
+  async getAllUnanswered(): Promise<Survey[]> {
+    return Promise.resolve(
+      surveys.filter((s) => !s.results.find((r) => r.username === 'testUser1'))
+    );
+  }
+
   async getOne(id: string): Promise<Survey> {
     const survey = surveys.find((s) => s._id === id);
 
