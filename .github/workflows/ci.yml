@@ -23,8 +23,8 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - run: npm ci --legacy-peer-deps
+      - run: npm install
       - run: npx playwright install --with-deps
       - uses: nrwl/nx-set-shas@v4
 
-      - run: npx nx affected -t lint test build e2e
+      - run: npm run all

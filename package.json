@@ -6,7 +6,8 @@
     "backend:dev": "nx run backend:serve",
     "frontend:dev": "nx run frontend:serve",
     "frontend:build": "nx build frontend --verbose",
-    "lint": "nx run-many --target=lint --all --skipNxCache --verbose"
+    "lint": "nx run-many --target=lint --all --skipNxCache --verbose",
+    "all": "nx format:write --skip-nx-cache && nx run-many -t lint test build e2e --all --skip-nx-cache"
   },
   "private": true,
   "dependencies": {

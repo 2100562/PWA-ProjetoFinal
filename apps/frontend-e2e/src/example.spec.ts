@@ -1,8 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('has title', async ({ page }) => {
   await page.goto('/');
 
-  // Expect h1 to contain a substring.
-  expect(await page.locator('h1').innerText()).toContain('Welcome');
+  // Locate the div with the content
+  const div = page.locator('div', { hasText: 'Questionários' });
+
+  // Assert that the div exists
+  await expect(div).toHaveCount(8);
 });

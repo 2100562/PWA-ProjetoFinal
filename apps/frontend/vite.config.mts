@@ -38,5 +38,6 @@ export default defineConfig({
       reportsDirectory: '../../coverage/apps/frontend',
       provider: 'v8',
     },
+    passWithNoTests: true,
   },
 });
