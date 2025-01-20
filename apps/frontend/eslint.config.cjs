@@ -1,14 +1,21 @@
-const pluginQuery = require('@tanstack/eslint-plugin-query');
-const nx = require('@nx/eslint-plugin');
+const vue = require('eslint-plugin-vue');
 const baseConfig = require('../../eslint.config.cjs');
 
 module.exports = [
   ...baseConfig,
-  ...nx.configs['flat/react'],
+  ...vue.configs['flat/recommended'],
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
+    files: ['**/*.vue'],
+    languageOptions: {
+      parserOptions: {
+        parser: require('@typescript-eslint/parser'),
+      },
+    },
   },
-  ...pluginQuery.configs['flat/recommended'],
+  {
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
 ];

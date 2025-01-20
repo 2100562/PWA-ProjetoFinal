@@ -32,7 +32,7 @@ export async function getRequest<T>(url: string, token: string): Promise<T> {
 export async function postRequest<I, O>(
   url: string,
   token: string,
-  body: I
+  body: I,
 ): Promise<O> {
   const res = await fetch(url, {
     method: 'POST',
@@ -52,7 +52,7 @@ export async function postRequest<I, O>(
 export async function patchRequest<I, O>(
   url: string,
   token: string,
-  body: I
+  body: I,
 ): Promise<O> {
   const res = await fetch(url, {
     method: 'PATCH',

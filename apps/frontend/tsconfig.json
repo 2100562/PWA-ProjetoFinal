@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "allowJs": false,
+    "allowJs": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "types": ["vite/client", "vitest"]
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   },
   "files": [],
   "include": [],

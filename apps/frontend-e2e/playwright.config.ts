@@ -22,7 +22,6 @@ export default defineConfig({
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    headless: true,
   },
   /* Run your local dev server before starting the tests */
   webServer: {
@@ -55,5 +54,15 @@ export default defineConfig({
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
     },
+
+    // Uncomment for branded browsers
+    /* {
+      name: 'Microsoft Edge',
+      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    },
+    {
+      name: 'Google Chrome',
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    } */
   ],
 });

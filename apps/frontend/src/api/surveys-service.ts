@@ -95,7 +95,7 @@ export class SurveyService {
 
   async getAllUnanswered(): Promise<Survey[]> {
     return Promise.resolve(
-      surveys.filter((s) => !s.results.find((r) => r.username === 'testUser1'))
+      surveys.filter((s) => !s.results.find((r) => r.username === 'testUser1')),
     );
   }
 
