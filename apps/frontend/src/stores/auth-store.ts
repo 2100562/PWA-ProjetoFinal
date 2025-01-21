@@ -29,6 +29,12 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('token', token);
     },
 
+    async register(username: string, password: string) {
+      const token = await authService.register(username, password);
+      this.token = token;
+      localStorage.setItem('token', token);
+    },
+
     async logout() {
       this.token = '';
       localStorage.removeItem('token');

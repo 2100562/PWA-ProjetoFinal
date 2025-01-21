@@ -37,6 +37,7 @@ export default {
   <div>
     <template v-if="isDesktop">
       <v-container>
+        <h1>Questionários por responder:</h1>
         <v-table dense>
           <thead>
             <tr>
@@ -68,9 +69,9 @@ export default {
           @click="answerSurvey(survey._id)"
         >
           <span>{{ survey.title }}</span>
-          <span class="ml"
-            >Expira em: {{ survey.validity.toLocaleString() }}</span
-          >
+          <span class="ml">
+            Expira em: {{ survey.validity.toLocaleString() }}
+          </span>
         </v-list-item>
       </v-list>
     </template>

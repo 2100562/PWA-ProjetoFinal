@@ -7,20 +7,32 @@ export default {
   setup() {
     const username = ref('');
     const password = ref('');
+    const loginError = ref('');
 
     const auth = useAuthStore();
 
     const login = async () => {
+      loginError.value = '';
       if (!username.value.trim() || !password.value.trim()) {
+        loginError.value = 'Please fill in all fields.';
         return;
       }
 
-      await auth.fetchToken(username.value, password.value);
-
-      if (auth.isAuthenticated) {
-        await router.push('/');
-      } else {
-        console.error('Login failed, token not set');
+      try {
+        await auth.fetchToken(username.value, password.value);
+        if (auth.isAuthenticated) {
+          await router.push('/');
+        }
+      } catch (error) {
+        if (
+          error.message === 'Unauthorized' ||
+          error.message === 'Not Found' ||
+          error.message === 'Bad Request'
+        ) {
+          loginError.value = 'Invalid username or password.';
+        } else {
+          loginError.value = 'An unexpected error occurred. Please try again.';
+        }
       }
     };
 
@@ -28,6 +40,7 @@ export default {
       username,
       password,
       login,
+      loginError,
     };
   },
   data: () => ({
@@ -71,6 +84,11 @@ export default {
         variant="outlined"
         @click:append-inner="visible = !visible"
       ></v-text-field>
+
+      <!-- Error Message -->
+      <v-alert v-if="loginError" class="mb-4" dense text type="error">
+        {{ loginError }}
+      </v-alert>
 
       <v-btn
         block
