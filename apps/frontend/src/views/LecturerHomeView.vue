@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
-import { useSurveyStore } from '../stores/survey-store';
+import { useSurveyStore } from '../stores';
 import router from '../router';
 
 export default {
@@ -42,7 +42,7 @@ export default {
   <div>
     <div v-if="isDesktop" class="header">
       <h1>Os meus questionários:</h1>
-      <v-btn color="primary" @click="createSurvey">Novo</v-btn>
+      <v-btn color="primary" @click="createSurvey"> Novo </v-btn>
     </div>
     <template v-if="isDesktop">
       <v-container>
@@ -85,7 +85,7 @@ export default {
         </v-list-item>
       </v-list>
       <div class="mobile-button">
-        <v-btn color="primary" @click="createSurvey">Novo</v-btn>
+        <v-btn color="primary" @click="createSurvey"> Novo </v-btn>
       </div>
     </template>
   </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-import { useSurveyStore } from '../stores/survey-store';
-import { reactive, ref } from 'vue';
+import { useSurveyStore } from '../stores';
+import { ref } from 'vue';
 import { NewQuestion } from '@pwa-projeto-final/model';
 import router from '../router';
 
@@ -12,7 +12,7 @@ export default {
     const title = ref('');
     const validity = ref('');
     const errors = ref('');
-    const questions = reactive<NewQuestion[]>([
+    const questions = ref<NewQuestion[]>([
       { question: '', answers: ['', '', '', ''], correctAnswer: -1 },
     ]);
 
@@ -21,17 +21,17 @@ export default {
         .createSurvey({
           title: title.value,
           validity: new Date(validity.value),
-          newQuestions: questions,
+          newQuestions: questions.value,
         })
         .then(() => router.push('/'));
     };
 
     const handleCorrectAnswerChange = (qIndex: number, aIndex: number) => {
-      questions[qIndex].correctAnswer = aIndex;
+      questions.value[qIndex].correctAnswer = aIndex;
     };
 
     const addQuestion = () => {
-      questions.push({
+      questions.value.push({
         question: '',
         answers: ['', '', '', ''],
         correctAnswer: -1,
@@ -49,7 +49,7 @@ export default {
         validationErrors += 'A Validade é obrigatória.\n';
       }
 
-      questions.forEach((question, index) => {
+      questions.value.forEach((question, index) => {
         if (!question.question.trim()) {
           validationErrors += `Pergunta ${index + 1} é obrigatória.\n`;
         }
@@ -114,7 +114,11 @@ export default {
 
     <v-divider class="my-6" />
 
-    <div v-for="(question, qIndex) in questions" :key="qIndex" class="mb-8">
+    <div
+      v-for="(question, qIndex) in questions.value"
+      :key="qIndex"
+      class="mb-8"
+    >
       <p class="mb-2 text-h6">Pergunta {{ qIndex + 1 }}</p>
 
       <v-textarea
@@ -155,7 +159,7 @@ export default {
     </v-btn>
 
     <div class="d-flex justify-center">
-      <v-btn class="ml-2" color="primary" @click="handleSubmit"> Criar</v-btn>
+      <v-btn class="ml-2" color="primary" @click="handleSubmit"> Criar </v-btn>
     </div>
   </v-container>
 </template>

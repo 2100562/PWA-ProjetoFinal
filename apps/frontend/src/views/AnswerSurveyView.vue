@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useSurveyStore } from '../stores/survey-store';
+import { useSurveyStore } from '../stores';
 
 export default {
   name: 'AnswerSurveyView',

@@ -4,20 +4,37 @@ import { jwtDecode } from 'jwt-decode';
 
 const authService = new AuthService();
 
+interface Token {
+  username: string;
+  role: string;
+}
+
+interface Getters {
+  isAuthenticated: (state: State) => boolean;
+  decodedToken: Token;
+}
+
+interface State {
+  token: string;
+  decodedToken: (state: State) => string;
+  username: (state: State, getters: Getters) => string;
+  role: (state: State, getters: Getters) => string;
+}
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token') || '',
-    decodedToken: (state: { token: string }) => {
+    decodedToken: (state: State) => {
       try {
         return jwtDecode(state.token);
       } catch {
         return null;
       }
     },
-    username: (state: any, getters: any): string =>
+    username: (state: State, getters: Getters): string =>
       getters.decodedToken?.username || '',
-    role: (state: any, getters: any): string =>
-      getters.decodedToken?.role || null,
+    role: (state: State, getters: Getters): string =>
+      getters.decodedToken?.role || '',
   }),
   getters: {
     isAuthenticated: (state): boolean => !!state.token.trim(),

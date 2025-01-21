@@ -1,8 +1,6 @@
 import { Question, Survey, SurveyResult } from '@pwa-projeto-final/model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument } from 'mongoose';
-
-export type SurveyDocument = HydratedDocument<SurveyEntity>;
+import { Document } from 'mongoose';
 
 @Schema({ collection: 'surveys' })
 export class SurveyEntity

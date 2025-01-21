@@ -1,11 +1,13 @@
 const nx = require('@nx/eslint-plugin');
+const pluginVue = require('eslint-plugin-vue');
 
 module.exports = [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
+  ...pluginVue.configs['flat/recommended'],
   {
-    ignores: ['**/dist'],
+    ignores: ['**/dist', '.nx'],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.vue'],

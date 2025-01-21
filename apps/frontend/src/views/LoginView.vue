@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
 import { ref } from 'vue';
-import { useAuthStore } from '../stores/auth-store';
+import { useAuthStore } from '../stores';
 import router from '../router';
 
 export default {
+  name: 'LoginView',
   setup() {
     const username = ref('');
     const password = ref('');
@@ -73,7 +74,7 @@ export default {
         placeholder="Utilizador"
         prepend-inner-icon="mdi-account"
         variant="outlined"
-      ></v-text-field>
+      />
 
       <div
         class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
@@ -90,10 +91,10 @@ export default {
         prepend-inner-icon="mdi-lock-outline"
         variant="outlined"
         @click:append-inner="visible = !visible"
-      ></v-text-field>
+      />
 
       <!-- Error Message -->
-      <v-alert v-if="loginError" class="mb-4" dense text type="error">
+      <v-alert v-if="loginError" class="mb-4" dense text="" type="error">
         {{ loginError }}
       </v-alert>
 
@@ -115,7 +116,7 @@ export default {
           rel="noopener noreferrer"
         >
           Registo
-          <v-icon icon="mdi-chevron-right"></v-icon>
+          <v-icon icon="mdi-chevron-right" />
         </a>
       </v-card-text>
     </v-card>

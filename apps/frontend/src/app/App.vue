@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/';
 import router from '../router';
@@ -24,6 +24,7 @@ export default {
       navigate,
       logout,
       auth,
+      theme,
     };
   },
 };
@@ -40,14 +41,19 @@ export default {
           <template #append>
             <v-btn
               class="cursor-pointer"
-              text
+              text=""
               variant="text"
               @click="navigate('/')"
             >
               Início
             </v-btn>
-            <v-btn class="cursor-pointer" text variant="text" @click="logout"
-              >Sair
+            <v-btn
+              class="cursor-pointer"
+              text=""
+              variant="text"
+              @click="logout"
+            >
+              Sair
             </v-btn>
             <v-btn
               :prepend-icon="
@@ -55,7 +61,7 @@ export default {
               "
               slim
               @click="onClick"
-            ></v-btn>
+            />
           </template>
         </v-app-bar>
       </template>

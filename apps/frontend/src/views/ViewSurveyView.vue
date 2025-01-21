@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useSurveyStore } from '../stores/survey-store';
+import { useSurveyStore } from '../stores';
 import { useRoute } from 'vue-router';
 import { computed, ref } from 'vue';
 import router from '../router';
@@ -15,11 +15,11 @@ export default {
     const queryParams = ref(route.query);
 
     if (!queryParams.value) {
-      router.push('/');
+      await router.push('/');
     }
 
     if (!queryParams.value?.id) {
-      router.push('/');
+      await router.push('/');
     }
 
     const surveyId = queryParams.value?.id as string;
@@ -38,7 +38,9 @@ export default {
 
 <template>
   <div>
-    <p class="text-h4">{{ survey?.title }}</p>
+    <p class="text-h4">
+      {{ survey?.title }}
+    </p>
     <p class="text-h6 mt">Respostas: {{ survey?.results.length }}</p>
     <p class="text-h4 mt">Últimas respostas:</p>
     <template v-if="isDesktop">

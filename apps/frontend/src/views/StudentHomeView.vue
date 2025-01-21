@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
-import { useSurveyStore } from '../stores/survey-store';
+import { useSurveyStore } from '../stores';
 import router from '../router';
 
 export default {

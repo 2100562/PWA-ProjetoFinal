@@ -12,14 +12,14 @@ module.exports = async function () {
       {
         shell: true,
         stdio: 'pipe',
-      }
+      },
     );
 
     docker.on('error', (err) => {
       reject(`Docker error: ${err}`);
     });
 
-    docker.on('close', (err) => {
+    docker.on('close', () => {
       resolve('');
     });
   });

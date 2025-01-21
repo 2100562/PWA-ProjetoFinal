@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import LecturerHomeView from './LecturerHomeView.vue';
-import { useAuthStore } from '../stores/auth-store';
+import { useAuthStore } from '../stores';
 import StudentHomeView from './StudentHomeView.vue';
 
 export default defineComponent({
