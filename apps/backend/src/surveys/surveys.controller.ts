@@ -1,42 +1,46 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { SurveysService } from './surveys.service';
 import { CreateSurveyDto } from './dto/create-survey.dto';
-import { UpdateSurveyDto } from './dto/update-survey.dto';
+import { RolesGuard } from '../auth/roles-guard';
+import { Role } from '../auth/role';
+import { Roles } from '../auth/roles-decorator';
+import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 
 @Controller('surveys')
+@UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
 export class SurveysController {
   constructor(private readonly surveysService: SurveysService) {}
 
+  @Roles(Role.Lecturer)
   @Post()
   create(@Body() createSurveyDto: CreateSurveyDto) {
     return this.surveysService.create(createSurveyDto);
   }
 
+  @Roles(Role.Student, Role.Lecturer)
   @Get()
   findAll() {
     return this.surveysService.findAll();
   }
 
+  @Roles(Role.Student, Role.Lecturer)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.surveysService.findOne(+id);
+    return this.surveysService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSurveyDto: UpdateSurveyDto) {
-    return this.surveysService.update(+id, updateSurveyDto);
-  }
-
+  @Roles(Role.Lecturer)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.surveysService.remove(+id);
+    return this.surveysService.remove(id);
   }
 }

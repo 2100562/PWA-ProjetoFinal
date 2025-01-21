@@ -4,6 +4,10 @@ import { SurveysController } from './surveys.controller';
 import { SurveyEntity, SurveySchema } from './entities/survey.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from '../auth/roles-guard';
+import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 
 @Module({
   imports: [
@@ -21,8 +25,21 @@ import { Document } from 'mongoose';
         },
       },
     ]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || 'testSecretKey',
+    }),
   ],
   controllers: [SurveysController],
-  providers: [SurveysService],
+  providers: [
+    SurveysService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class SurveysModule {}

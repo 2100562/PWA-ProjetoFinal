@@ -3,9 +3,11 @@ import { SurveysModule } from './surveys/surveys.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Connection } from 'mongoose';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     SurveysModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
@@ -16,11 +18,11 @@ import { Connection } from 'mongoose';
           connection.on('connected', () => Logger.log('MongoDB connected'));
           connection.on('open', () => Logger.log('MongoDB connection open'));
           connection.on('disconnected', () =>
-            Logger.log('MongoDB disconnected')
+            Logger.log('MongoDB disconnected'),
           );
           connection.on('reconnected', () => Logger.log('MongoDB reconnected'));
           connection.on('disconnecting', () =>
-            Logger.log('MongoDB disconnecting')
+            Logger.log('MongoDB disconnecting'),
           );
 
           return connection;

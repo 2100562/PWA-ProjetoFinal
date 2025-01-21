@@ -5,9 +5,10 @@ import { Document, HydratedDocument } from 'mongoose';
 export type SurveyDocument = HydratedDocument<SurveyEntity>;
 
 @Schema({ collection: 'surveys' })
-export class SurveyEntity extends Document implements Survey {
-  _id: string;
-
+export class SurveyEntity
+  extends Document<string, never, Survey>
+  implements Survey
+{
   @Prop({ required: true })
   questions: Question[];
 
