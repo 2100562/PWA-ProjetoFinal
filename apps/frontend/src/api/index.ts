@@ -1,3 +1,4 @@
 import { SurveyService } from './surveys-service';
+import { AuthService } from './auth-service';
 
-export default SurveyService;
+export { SurveyService, AuthService };

@@ -7,19 +7,19 @@ export default {
   setup() {
     const username = ref('');
     const password = ref('');
-    const loginError = ref('');
+    const registerError = ref('');
 
     const auth = useAuthStore();
 
-    const login = async () => {
-      loginError.value = '';
+    const register = async () => {
+      registerError.value = '';
       if (!username.value.trim() || !password.value.trim()) {
-        loginError.value = 'Please fill in all fields.';
+        registerError.value = 'Please fill in all fields.';
         return;
       }
 
       try {
-        await auth.fetchToken(username.value, password.value);
+        await auth.register(username.value, password.value);
         if (auth.isAuthenticated) {
           await router.push('/');
         }
@@ -29,9 +29,10 @@ export default {
           error.message === 'Not Found' ||
           error.message === 'Bad Request'
         ) {
-          loginError.value = 'Invalid username or password.';
+          registerError.value = 'Invalid username or password.';
         } else {
-          loginError.value = 'An unexpected error occurred. Please try again.';
+          registerError.value =
+            'An unexpected error occurred. Please try again.';
         }
       }
     };
@@ -39,8 +40,8 @@ export default {
     return {
       username,
       password,
-      login,
-      loginError,
+      register,
+      registerError,
     };
   },
   data: () => ({
@@ -61,7 +62,7 @@ export default {
       <v-container>
         <v-row>
           <v-col class="text-center">
-            <h2>Autenticação</h2>
+            <h2>Registo</h2>
           </v-col>
         </v-row>
       </v-container>
@@ -93,8 +94,8 @@ export default {
       ></v-text-field>
 
       <!-- Error Message -->
-      <v-alert v-if="loginError" class="mb-4" dense text type="error">
-        {{ loginError }}
+      <v-alert v-if="registerError" class="mb-4" dense text type="error">
+        {{ registerError }}
       </v-alert>
 
       <v-btn
@@ -103,21 +104,10 @@ export default {
         color="blue"
         size="large"
         variant="tonal"
-        @click="login"
+        @click="register"
       >
-        Entrar
+        Registar
       </v-btn>
-
-      <v-card-text class="text-center">
-        <a
-          class="text-blue text-decoration-none"
-          href="/register"
-          rel="noopener noreferrer"
-        >
-          Registo
-          <v-icon icon="mdi-chevron-right"></v-icon>
-        </a>
-      </v-card-text>
     </v-card>
   </div>
 </template>

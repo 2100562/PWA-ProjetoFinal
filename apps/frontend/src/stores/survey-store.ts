@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { NewSurvey, Survey } from '@pwa-projeto-final/model';
-import SurveyService from '../api';
+import { SurveyService } from '../api';
 
 const surveyService = new SurveyService();
 

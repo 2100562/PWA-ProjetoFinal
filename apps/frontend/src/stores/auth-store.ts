@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { AuthService } from '../api/auth-service';
+import { AuthService } from '../api';
 import { jwtDecode } from 'jwt-decode';
 
 const authService = new AuthService();

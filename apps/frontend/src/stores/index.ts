@@ -1,3 +1,4 @@
-import { useSurveysStore } from './survey-store';
+import { useSurveyStore } from './survey-store';
+import { useAuthStore } from './auth-store';
 
-export default useSurveysStore;
+export { useSurveyStore, useAuthStore };

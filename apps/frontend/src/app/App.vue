@@ -1,12 +1,10 @@
 <script>
 import { ref } from 'vue';
-import { useAuthStore } from '../stores/auth-store';
-import Login from './Login.vue';
+import { useAuthStore } from '../stores/';
 import router from '../router';
 
 export default {
   name: 'App',
-  components: { Login },
   setup() {
     const theme = ref('light');
     const auth = useAuthStore();
@@ -16,7 +14,10 @@ export default {
 
     const navigate = (to) => router.push(to);
 
-    const logout = () => auth.logout();
+    const logout = async () => {
+      await auth.logout();
+      await router.push('/login');
+    };
 
     return {
       onClick,
@@ -57,24 +58,14 @@ export default {
             ></v-btn>
           </template>
         </v-app-bar>
-
-        <v-main>
-          <v-container class="d-flex align-center justify-center fill-height">
-            <Suspense fallback="Loading...">
-              <RouterView />
-            </Suspense>
-          </v-container>
-        </v-main>
       </template>
-      <template v-else>
-        <v-main>
-          <v-container class="d-flex align-center justify-center fill-height">
-            <Suspense fallback="Loading...">
-              <Login />
-            </Suspense>
-          </v-container>
-        </v-main>
-      </template>
+      <v-main>
+        <v-container class="d-flex align-center justify-center fill-height">
+          <Suspense fallback="Loading...">
+            <RouterView />
+          </Suspense>
+        </v-container>
+      </v-main>
     </v-app>
   </v-responsive>
 </template>
