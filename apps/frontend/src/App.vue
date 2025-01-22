@@ -1,7 +1,7 @@
 <script lang="ts">
 import { ref } from 'vue';
-import { useAuthStore } from '../stores/';
-import router from '../router';
+import { useAuthStore } from './stores';
+import router from './router';
 
 export default {
   name: 'App',

@@ -11,11 +11,14 @@ export interface Answer {
 }
 
 export interface SurveyResult {
-  id: number;
-  userId: string;
   username: string;
   correct: number;
   wrong: number;
+  answers: Answer[];
+}
+
+export interface NewResult extends Partial<SurveyResult> {
+  surveyId: string;
   answers: Answer[];
 }
 

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { NewSurvey, Survey } from '@pwa-projeto-final/model';
+import { NewResult, NewSurvey, Survey } from '@pwa-projeto-final/model';
 import { SurveyService } from '../api';
 
 const surveyService = new SurveyService();
@@ -38,6 +38,14 @@ export const useSurveyStore = defineStore('survey', {
         this.surveys.push(createdSurvey);
       } catch (error) {
         console.error('Error creating survey:', error);
+      }
+    },
+    async createResult(newResult: NewResult) {
+      try {
+        await surveyService.createResult(newResult);
+        await this.fetchUnansweredSurveys();
+      } catch (error) {
+        console.error('Error creating result:', error);
       }
     },
   },

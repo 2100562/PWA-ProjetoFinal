@@ -1,4 +1,4 @@
-import { NewSurvey, Survey } from '@pwa-projeto-final/model';
+import { NewResult, NewSurvey, Survey } from '@pwa-projeto-final/model';
 import { getRequest, postRequest } from './requests';
 import { api_base_url } from '../../constants';
 
@@ -17,5 +17,9 @@ export class SurveyService {
 
   async create(newSurvey: NewSurvey): Promise<Survey> {
     return postRequest(api_base_url + '/surveys', newSurvey);
+  }
+
+  async createResult(newResult: NewResult): Promise<Survey> {
+    return postRequest(api_base_url + '/surveys/result', newResult);
   }
 }

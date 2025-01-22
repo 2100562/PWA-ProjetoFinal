@@ -3,7 +3,7 @@ import '@mdi/font/css/materialdesignicons.css';
 import './styles.css';
 import router from './router';
 import { createApp } from 'vue';
-import App from './app/App.vue';
+import App from './App.vue';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { createVuetify } from 'vuetify';

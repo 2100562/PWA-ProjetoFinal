@@ -15,6 +15,7 @@ import { Roles } from '../auth/roles-decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth-guard';
 import { AuthorizedUser } from '../auth/user-decorator';
 import { User } from '../auth/entities/user.entity';
+import { CreateResultDto } from './dto/create-result.dto';
 
 @Controller('surveys')
 @UseGuards(JwtAuthGuard)
@@ -38,6 +39,15 @@ export class SurveysController {
     );
 
     return this.surveysService.create(createSurveyDto);
+  }
+
+  @Roles(Role.Student)
+  @Post('/result')
+  createResult(
+    @AuthorizedUser() user: User,
+    @Body() createResultDto: CreateResultDto,
+  ) {
+    return this.surveysService.createResult(user.username, createResultDto);
   }
 
   @Roles(Role.Student, Role.Lecturer)
