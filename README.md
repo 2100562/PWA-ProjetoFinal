@@ -17,6 +17,11 @@ $ docker compose up -d
 $ npm run backend:dev
 ```
 
+### Utilizadores de teste pré-carregados (user/password)
+Formador : lecturer/lecturer
+
+Aluno: student/student
+
 ### Desenvolvimento:
 
 Lint:
