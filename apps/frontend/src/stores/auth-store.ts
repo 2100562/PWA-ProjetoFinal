@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { AuthService } from '../api';
 import { jwtDecode } from 'jwt-decode';
+import { computed, ref } from 'vue';
 
 const authService = new AuthService();
 
@@ -9,52 +10,47 @@ interface Token {
   role: string;
 }
 
-interface Getters {
-  isAuthenticated: (state: State) => boolean;
-  decodedToken: Token;
-}
+export const useAuthStore = defineStore('auth', () => {
+  const token = ref<string>(localStorage.getItem('token') || '');
 
-interface State {
-  token: string;
-  decodedToken: (state: State) => string;
-  username: (state: State, getters: Getters) => string;
-  role: (state: State, getters: Getters) => string;
-}
+  const decodedToken = computed<Token | null>(() => {
+    try {
+      return jwtDecode<Token>(token.value);
+    } catch {
+      return null;
+    }
+  });
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    token: localStorage.getItem('token') || '',
-    decodedToken: (state: State) => {
-      try {
-        return jwtDecode(state.token);
-      } catch {
-        return null;
-      }
-    },
-    username: (state: State, getters: Getters): string =>
-      getters.decodedToken?.username || '',
-    role: (state: State, getters: Getters): string =>
-      getters.decodedToken?.role || '',
-  }),
-  getters: {
-    isAuthenticated: (state): boolean => !!state.token.trim(),
-  },
-  actions: {
-    async fetchToken(username: string, password: string) {
-      const token = await authService.login(username, password);
-      this.token = token;
-      localStorage.setItem('token', token);
-    },
+  const isAuthenticated = computed<boolean>(() => !!decodedToken.value);
 
-    async register(username: string, password: string) {
-      const token = await authService.register(username, password);
-      this.token = token;
-      localStorage.setItem('token', token);
-    },
+  const username = computed<string>(() => decodedToken.value?.username || '');
+  const role = computed<string>(() => decodedToken.value?.role || '');
 
-    async logout() {
-      this.token = '';
-      localStorage.removeItem('token');
-    },
-  },
+  const fetchToken = async (username: string, password: string) => {
+    const newToken = await authService.login(username, password);
+    token.value = newToken;
+    localStorage.setItem('token', newToken);
+  };
+
+  const register = async (username: string, password: string) => {
+    const newToken = await authService.register(username, password);
+    token.value = newToken;
+    localStorage.setItem('token', newToken);
+  };
+
+  const logout = () => {
+    token.value = '';
+    localStorage.removeItem('token');
+  };
+
+  return {
+    token,
+    decodedToken,
+    isAuthenticated,
+    username,
+    role,
+    fetchToken,
+    register,
+    logout,
+  };
 });

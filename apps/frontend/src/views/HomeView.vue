@@ -10,7 +10,7 @@ export default defineComponent({
   setup() {
     const auth = useAuthStore();
     return {
-      role: auth.role.toString(),
+      role: auth.role,
     };
   },
 });

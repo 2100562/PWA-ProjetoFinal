@@ -1,6 +1,6 @@
 <script lang="ts">
 import { useSurveyStore } from '../stores';
-import { ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { NewQuestion } from '@pwa-projeto-final/model';
 import router from '../router';
 
@@ -12,7 +12,7 @@ export default {
     const title = ref('');
     const validity = ref('');
     const errors = ref('');
-    const questions = ref<NewQuestion[]>([
+    const questions = reactive<NewQuestion[]>([
       { question: '', answers: ['', '', '', ''], correctAnswer: -1 },
     ]);
 
@@ -21,17 +21,17 @@ export default {
         .createSurvey({
           title: title.value,
           validity: new Date(validity.value),
-          newQuestions: questions.value,
+          newQuestions: questions,
         })
         .then(() => router.push('/'));
     };
 
     const handleCorrectAnswerChange = (qIndex: number, aIndex: number) => {
-      questions.value[qIndex].correctAnswer = aIndex;
+      questions[qIndex].correctAnswer = aIndex;
     };
 
     const addQuestion = () => {
-      questions.value.push({
+      questions.push({
         question: '',
         answers: ['', '', '', ''],
         correctAnswer: -1,
@@ -49,7 +49,7 @@ export default {
         validationErrors += 'A Validade é obrigatória.\n';
       }
 
-      questions.value.forEach((question, index) => {
+      questions.forEach((question, index) => {
         if (!question.question.trim()) {
           validationErrors += `Pergunta ${index + 1} é obrigatória.\n`;
         }
@@ -78,6 +78,15 @@ export default {
       }
     };
 
+    const today = computed(() => {
+      const now = new Date();
+      now.setDate(now.getDate() + 1);
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    });
+
     return {
       title,
       validity,
@@ -86,6 +95,7 @@ export default {
       handleCorrectAnswerChange,
       addQuestion,
       handleSubmit,
+      today,
     };
   },
 };
@@ -110,15 +120,12 @@ export default {
       label="Validade"
       outlined
       type="date"
+      :min="today"
     />
 
     <v-divider class="my-6" />
 
-    <div
-      v-for="(question, qIndex) in questions.value"
-      :key="qIndex"
-      class="mb-8"
-    >
+    <div v-for="(question, qIndex) in questions" :key="qIndex" class="mb-8">
       <p class="mb-2 text-h6">Pergunta {{ qIndex + 1 }}</p>
 
       <v-textarea

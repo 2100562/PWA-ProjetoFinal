@@ -24,7 +24,7 @@ const router = createRouter({
     },
     {
       path: '/answer-survey',
-      name: 'create-survey',
+      name: 'answer-survey',
       component: () => import('../views/AnswerSurveyView.vue'),
       meta: { requiresAuth: true },
     },

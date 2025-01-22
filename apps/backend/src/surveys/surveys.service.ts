@@ -20,6 +20,26 @@ export class SurveysService {
     return this.surveyModel.find().exec();
   }
 
+  async findAllWithoutResults(): Promise<Survey[]> {
+    return this.surveyModel
+      .find({ $or: [{ results: null }, { results: { $size: 0 } }] })
+      .exec();
+  }
+
+  async findAllUnanswered(username: string): Promise<Survey[]> {
+    return this.surveyModel
+      .find({
+        results: {
+          $not: {
+            $elemMatch: {
+              username: username,
+            },
+          },
+        },
+      })
+      .exec();
+  }
+
   async findOne(id: string): Promise<Survey | null> {
     return this.surveyModel.findOne({ _id: id }).exec();
   }

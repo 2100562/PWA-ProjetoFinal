@@ -1,3 +1,5 @@
+import { useAuthStore } from '../stores';
+
 const parseBody = <T>(body: string): T => {
   const dateParser = (key: string, value: unknown) => {
     const iso =
@@ -14,12 +16,18 @@ const parseBody = <T>(body: string): T => {
   return JSON.parse(body, dateParser);
 };
 
-export async function getRequest<T>(url: string, token: string): Promise<T> {
+async function token() {
+  const auth = useAuthStore();
+
+  return auth.token;
+}
+
+export async function getRequest<T>(url: string): Promise<T> {
   const res = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${await token()}`,
     },
   });
   if (res.ok) {
@@ -29,16 +37,12 @@ export async function getRequest<T>(url: string, token: string): Promise<T> {
   }
 }
 
-export async function postRequest<I, O>(
-  url: string,
-  token: string,
-  body: I,
-): Promise<O> {
+export async function postRequest<I, O>(url: string, body: I): Promise<O> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${await token()}`,
     },
     body: JSON.stringify(body),
   });
@@ -49,16 +53,12 @@ export async function postRequest<I, O>(
   }
 }
 
-export async function patchRequest<I, O>(
-  url: string,
-  token: string,
-  body: I,
-): Promise<O> {
+export async function patchRequest<I, O>(url: string, body: I): Promise<O> {
   const res = await fetch(url, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${await token()}`,
     },
     body: JSON.stringify(body),
   });
@@ -69,12 +69,12 @@ export async function patchRequest<I, O>(
   }
 }
 
-export async function deleteRequest(url: string, token: string): Promise<void> {
+export async function deleteRequest(url: string): Promise<void> {
   const res = await fetch(url, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${await token()}`,
     },
   });
   if (res.ok) {
