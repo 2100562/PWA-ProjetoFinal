@@ -6,6 +6,9 @@
     "backend:dev": "nx run backend:serve",
     "frontend:dev": "nx run frontend:serve",
     "frontend:build": "nx build frontend --verbose",
+    "frontend:build:prod": "nx build frontend --configuration=production --mode=production",
+    "backend:build": "nx build backend --verbose && ncc build dist/apps/backend/main.js -m -C -o dist/apps/backend --target es2024 && mv dist/apps/backend/index.js dist/apps/backend/main.js",
+    "build:prod": "npm run backend:build && npm run frontend:build:prod",
     "lint": "nx run-many --target=lint --all --skipNxCache --verbose",
     "all": "nx format:write --skip-nx-cache && nx run-many -t lint test build e2e --all --skip-nx-cache"
   },
@@ -26,6 +29,7 @@
     "@nestjs/platform-express": "^10.0.2",
     "@tanstack/react-query": "^5.64.1",
     "@tanstack/react-router": "^1.95.6",
+    "@vercel/ncc": "^0.38.3",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
     "jwt-decode": "^4.0.0",

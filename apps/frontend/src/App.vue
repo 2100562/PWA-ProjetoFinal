@@ -12,10 +12,10 @@ export default {
     const onClick = () =>
       (theme.value = theme.value === 'light' ? 'dark' : 'light');
 
-    const navigate = (to) => router.push(to);
+    const navigate = (to: string) => router.push(to);
 
     const logout = async () => {
-      await auth.logout();
+      auth.logout();
       await router.push('/login');
     };
 

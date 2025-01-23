@@ -24,7 +24,7 @@ export default {
         if (auth.isAuthenticated) {
           await router.push('/');
         }
-      } catch (error) {
+      } catch (error: any) {
         if (
           error.message === 'Unauthorized' ||
           error.message === 'Not Found' ||
